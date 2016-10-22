@@ -10,30 +10,18 @@ using Api.Models;
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
-    public class YearFactController : Controller
+    public class YearFactController : BaseController<YearFact>
     {
-        // GET api/values
-        [HttpGet]
-        public async Task<YearFact> Get(YearFact fact)
-        {
+        public YearFactController() {
             Random r = new Random();
             int year = r.Next(1490, DateTime.Now.Year);
-            
-            MashapeClient client = new MashapeClient();
-            var response = await client.GetAsync(
-                new Uri(
-                    String.Format("https://numbersapi.p.mashape.com/{0}/year?fragment=true&json=true", year))
+            _uri = new Uri(
+                String.Format("https://numbersapi.p.mashape.com/{0}/year?fragment=true&json=true", year)
             );
-            
-            var success = false;
-            if (!response.IsSuccessStatusCode) {
-                // create new response message with error state
-                throw new InvalidOperationException();
-            }
+        }
 
-            var result = await response.Content.ReadAsAsync<YearFact>();
-
-            return result;
+        public override Task<YearFact> ResultAsync(HttpContent content) {
+            return content.ReadAsAsync<YearFact>();
         }
     }
 }

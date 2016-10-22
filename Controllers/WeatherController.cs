@@ -10,21 +10,14 @@ using Api.Models;
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
-    public class WeatherController : Controller
+    public class WeatherController : BaseController<Weather>
     {
-        // GET api/values
-        [HttpGet]
-        public async Task<Weather> Get()
-        {
-            MashapeClient client = new MashapeClient();
-            var response = await client.GetAsync(new Uri("https://simple-weather.p.mashape.com/weather?lat=48.9465&lng=-122.4521"));
-            
-            var success = false;
-            if (!response.IsSuccessStatusCode) {
-                // create new response message with error state
-            }
+        public WeatherController() {
+            _uri = new Uri("https://simple-weather.p.mashape.com/weather?lat=48.9465&lng=-122.4521");
+        }
 
-            var result = await response.Content.ReadAsStringAsync();
+        public override Task<Weather> ResultAsync(HttpContent content) {
+            var result = content.ReadAsStringAsync().Result;
             var results = result.Split(new char[] { ',' }, 2);
 
             var Temp = new Temperature() {
@@ -36,7 +29,9 @@ namespace Api.Controllers
                 Current = results[1]
             };
 
-            return data;
+            return Task.Run( () => { 
+                return data;
+            });
         }
     }
 }
