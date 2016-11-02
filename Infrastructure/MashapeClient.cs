@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Api.Infrastructure
@@ -16,7 +17,7 @@ namespace Api.Infrastructure
            
             // defaults
             base.DefaultRequestHeaders.Add("X-Mashape-Key","wblTu784g7msh9npewlZO3loVOEcp1X0AkDjsn3jUqtukA0T2Q");
-            base.DefaultRequestHeaders.Add("Accept","text/plain");
+            base.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<HttpResponseMessage> JSONPostAsync(Uri uri, string json) {
