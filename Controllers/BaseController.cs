@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Api.Infrastructure;
 using System.Net.Http;
 using Api.Models;
@@ -12,14 +13,17 @@ namespace Api.Controllers
     public class BaseController<T> : Controller
     {
         protected Uri _uri;
+        private readonly Keys _keys;
 
-        public BaseController() {}
+        public BaseController(IOptions<Keys> keys) {
+            _keys = keys.Value;
+        }
 
         // GET api/values
         [HttpGet]
         public async Task<T> Get()
         {
-            MashapeClient client = new MashapeClient();
+            MashapeClient client = new MashapeClient(_keys.XMashUpKey);
             var response = await client.GetAsync(_uri);
             
             var success = false;

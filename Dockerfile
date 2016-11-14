@@ -9,7 +9,7 @@ WORKDIR ./api
 run ["dotnet", "restore"]
 RUN ["dotnet", "restore"]
 
-ENV ASPNETCORE_URLS http://*:5000
+ENV ASPNETCORE_URLS http://*:5001
 EXPOSE 5000/tcp
 
 ENTRYPOINT ["dotnet", "run"]

@@ -6,17 +6,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Text;
+using Microsoft.Extensions.Options;
 
 namespace Api.Infrastructure
 {
     public class MashapeClient : HttpClient 
     {
-        private HttpClient _client;
-
-        public MashapeClient() {
+        public MashapeClient(String Mashupkey) {
            
             // defaults
-            base.DefaultRequestHeaders.Add("X-Mashape-Key","wblTu784g7msh9npewlZO3loVOEcp1X0AkDjsn3jUqtukA0T2Q");
+            base.DefaultRequestHeaders.Add("X-Mashape-Key", Mashupkey);
             base.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
